@@ -9,7 +9,7 @@ app.config["TEMPLATES_AUTO_RELOAD"]=True
 mydb = mysql.connector.connect(
     host = "localhost",
     user = "root",
-    password = "GhbI!Abg1329",
+    password = "lsdkfjlsdkfjlsdkfj",
     database = "website"
 )
 
@@ -137,4 +137,4 @@ def att_id(attractionId):
 	return stud_json
 
 
-app.run(port=3000)
+app.run(host="0.0.0.0",port=3000)
