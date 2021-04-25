@@ -9,7 +9,7 @@ app.config["TEMPLATES_AUTO_RELOAD"]=True
 mydb = mysql.connector.connect(
     host = "localhost",
     user = "root",
-    password = "lsdkfjlsdkfjlsdkfj",
+    password = "GhbI!Abg1329",
     database = "website"
 )
 
@@ -57,10 +57,6 @@ def api_attractions():
 			cursor.execute(c_sql)
 			sum = cursor.fetchone()[0]
 		cursor.execute(sql, check)
-		if(sum > 12):
-			c_sum = 12
-		else:
-			c_sum = sum
 	else:
 		c_sql = "SELECT COUNT(*) FROM `attraction`;"
 		sql = "SELECT * FROM `attraction`;"
@@ -68,7 +64,6 @@ def api_attractions():
 		sum = cursor.fetchone()[0]
 		cursor.execute(sql)
 		page = sum
-		c_sum = sum
 
 	data = cursor.fetchall()
 	mydict = []
@@ -89,11 +84,17 @@ def api_attractions():
 		})
 		i = i+1
 
-	if(mydict != []):
-		for j in range(c_sum):		
+	if(mydict != [] and sum-(int(page)+1)*12 >= 0):
+		for j in range(12):		
 			delete = mydict[j]["images"]
 			del(delete[0])
 			delete.pop()
+	elif(mydict != []):
+		for j in range(sum%12):		
+			delete = mydict[j]["images"]
+			del(delete[0])
+			delete.pop()
+	
 
 	list = []
 	if(mydict == list):
@@ -137,4 +138,4 @@ def att_id(attractionId):
 	return stud_json
 
 
-app.run(host="0.0.0.0",port=3000)
+app.run(host="0.0.0.0", port=3000)
