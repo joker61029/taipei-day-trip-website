@@ -84,17 +84,11 @@ def api_attractions():
 		})
 		i = i+1
 
-	if(mydict != [] and sum-(int(page)+1)*12 >= 0):
-		for j in range(12):		
+	if(mydict != []):
+		for j in range(len(data)):
 			delete = mydict[j]["images"]
 			del(delete[0])
 			delete.pop()
-	elif(mydict != []):
-		for j in range(sum%12):		
-			delete = mydict[j]["images"]
-			del(delete[0])
-			delete.pop()
-	
 
 	list = []
 	if(mydict == list):
