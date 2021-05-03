@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Taipe Trip 台北一日遊</title>
+    <link rel="stylesheet" href="/static/assets/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="{{url_for('static',filename='/assets/js/index.js')}}"></script>
+
+</head>
+<header>
+    <nav class="header">
+        <div class="header_name">台北一日遊</div>
+        <div class="ul">
+            <li>預定行程</li>
+            <li>登入/註冊</li>
+        </div>
+    </nav>
+</header>
+<body class="front">
+    <div class="title">
+        <img class="welcome" src="/static/assets/image/welcome .png">
+        <div class="slogan_box">
+            <div class="slogan_title">輕鬆享受台北一日悠閒</div>
+            <div class="slogan_text">探索每個角落，體驗城市的深度旅遊行程</div>
+            <div class="slogan_search">
+                <input class="slogan_input" id="keywords" type="text" autocomplete="off" placeholder="輸入景點名稱查詢">
+                <button class="slogan_btn" onclick="search_key()" type="button">
+                    <img src="/static/assets/image/icon_search.png">
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="content" id="newbox"></div>
+    <div id="nothing"></div>
+    <footer class="footer">COPYRIGHT © 2021 台北一日遊</footer>
+</body>
+
+</html>
