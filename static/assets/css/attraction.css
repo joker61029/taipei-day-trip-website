@@ -122,6 +122,7 @@ body{
     position: relative;
     margin-right: 15px;
     top: 10px;
+    transition:.5s transform ease-in-out;
 }
 .button{
     height: 50px;
@@ -249,7 +250,7 @@ li{
     .ul{margin: 10px 20% 10px 64.5%;}
     .header_name{margin: 10px 84% 10px 17.5%;}
     .slides{margin-right: 0px;}
-    .attr_subtitle{margin-left: 15px;}
+    .attr_subtitle{margin-left: 0px;}
 }
 @media screen and (max-width: 856px){
     .ul{margin: 10px 20% 10px 63%;}
