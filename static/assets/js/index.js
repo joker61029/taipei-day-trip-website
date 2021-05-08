@@ -4,6 +4,8 @@ window.onload = function(){
         return response.json();
     }).then(function (result) {
         for(let i=0; i<24; i++){
+            let hyper = document.createElement("a");
+            hyper.setAttribute("href", "attraction/"+result["data"][i].id);
             let box = document.createElement("div");
             box.setAttribute("id","change");
             box.classList.add("box");
@@ -20,8 +22,9 @@ window.onload = function(){
             mrt.classList.add("mrt")
             category.textContent = result["data"][i].category;
             category.classList.add("category")
+            newbox.appendChild(hyper);
+            hyper.appendChild(box);
             box.appendChild(img);
-            newbox.appendChild(box);
             box.appendChild(name);
             box.appendChild(mrt);
             box.appendChild(category);
@@ -38,6 +41,8 @@ window.onload = function(){
                     return response.json();
                 }).then(function (result) {
                     for(let i=0; i<result["data"].length; i++){
+                        let hyper = document.createElement("a");
+                        hyper.setAttribute("href", "attraction/"+result["data"][i].id);
                         let box = document.createElement("div");
                         box.setAttribute("id","change");
                         box.classList.add("box");
@@ -54,8 +59,9 @@ window.onload = function(){
                         mrt.classList.add("mrt")
                         category.textContent = result["data"][i].category;
                         category.classList.add("category")
+                        newbox.appendChild(hyper);
+                        hyper.appendChild(box);
                         box.appendChild(img);
-                        newbox.appendChild(box);
                         box.appendChild(name);
                         box.appendChild(mrt);
                         box.appendChild(category);
@@ -85,6 +91,8 @@ function search_key(){
         }
         else{
             for(let i=0; i<result["data"].length; i++){
+                let hyper = document.createElement("a");
+                hyper.setAttribute("href", "attraction/"+result["data"][i].id);
                 let box = document.createElement("div");
                 box.setAttribute("id","change");
                 box.classList.add("box");
@@ -101,8 +109,9 @@ function search_key(){
                 mrt.classList.add("mrt")
                 category.textContent = result["data"][i].category;
                 category.classList.add("category")
+                newbox.appendChild(hyper);
+                hyper.appendChild(box);
                 box.appendChild(img);
-                newbox.appendChild(box);
                 box.appendChild(name);
                 box.appendChild(mrt);
                 box.appendChild(category);
@@ -123,6 +132,8 @@ function search_key(){
                     return response.json();
                 }).then(function (result) {
                     for(let i=0; i<result["data"].length; i++){
+                        let hyper = document.createElement("a");
+                        hyper.setAttribute("href", "attraction/"+result["data"][i].id);
                         let box = document.createElement("div");
                         box.setAttribute("id","change");
                         box.classList.add("box");
@@ -139,8 +150,9 @@ function search_key(){
                         mrt.classList.add("mrt")
                         category.textContent = result["data"][i].category;
                         category.classList.add("category")
+                        newbox.appendChild(hyper);
+                        hyper.appendChild(box);
                         box.appendChild(img);
-                        newbox.appendChild(box);
                         box.appendChild(name);
                         box.appendChild(mrt);
                         box.appendChild(category);
