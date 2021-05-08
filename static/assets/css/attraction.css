@@ -263,7 +263,7 @@ li{
 }
 @media screen and (max-width: 570px){
     .img{max-width: 360px; min-width:360px; border-radius:5px;}
-    .attr_subtitle{max-width: 340px; min-width: 340px;}
+    .attr_subtitle{max-width: 340px; min-width: 340px; margin-left: 0px;}
     .booking_box{max-width: 340px;min-width:340px;}
     .header_name{margin: 10px 84% 10px 4%;}
     .ul{margin: 10px 20% 10px 40%;}
@@ -271,6 +271,5 @@ li{
     .new_area{width: 93%; margin: 46px 58% 15px 5%;}
 }
 @media screen and (max-width: 360px){
-    .attr_subtitle{margin-left: 0px;}
     .img{border-radius:0px;}
 }
