@@ -271,5 +271,6 @@ li{
     .new_area{width: 93%; margin: 46px 58% 15px 5%;}
 }
 @media screen and (max-width: 360px){
+    .attr_subtitle{margin-left: 0px;}
     .img{border-radius:0px;}
 }
