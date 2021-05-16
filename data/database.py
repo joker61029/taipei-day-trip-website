@@ -8,6 +8,33 @@ mydb = mysql.connector.connect(
     password = "GhbI!Abg1329",
     database = "website"
 )
+cursor = mydb.cursor(buffered=True)
+sql ="""
+    CREATE TABLE attraction(
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    name varchar(255) NOT NULL,
+    category varchar(255),
+    description LONGTEXT,
+    address LONGTEXT,
+    transport LONGTEXT,
+    mrt varchar(255),
+    latitude FLOAT,
+    longitude FLOAT,
+    images LONGTEXT,
+    PRIMARY KEY (id));
+    """
+cursor.execute(sql)
+
+sql ="""
+    CREATE TABLE user(
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    name varchar(255) NOT NULL,
+    password varchar(255) NOT NULL,
+    email varchar(255) NOT NULL,
+    time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id));
+ """
+cursor.execute(sql)
 
 url = open(r"taipei-attractions.json", "r", encoding="UTF-8")
 attract = url.read()
@@ -36,7 +63,6 @@ while i < num:
     
     images_list = images_list+str(",")
     images_json = json.dumps(images_list)
-    cursor = mydb.cursor(buffered=True)
     sql = "INSERT INTO `attraction` (name, category, description, address, transport, mrt, latitude, longitude, images) VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s);"
     cursor.execute(sql,(stitle, category, description, address, transport, mrt, latitude, longitude, images_json))
     mydb.commit()

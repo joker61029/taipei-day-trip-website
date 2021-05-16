@@ -2,14 +2,16 @@ from flask import *
 import mysql.connector, json
 from mysql.connector import errorcode
 from collections import defaultdict
+
 app=Flask(__name__)
+app.secret_key = "(@*&#(283&$(*#"
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
 
 mydb = mysql.connector.connect(
     host = "localhost",
     user = "root",
-    password = "GhbI!Abg1329",
+    password = "joker610",
     database = "website"
 )
 
@@ -34,7 +36,7 @@ def thankyou():
 	return render_template("thankyou.html")
 
 
-#API
+#API_ATTRACTION
 @app.route("/api/attractions", methods = ["GET"])
 def api_attractions():
 	page = request.args.get('page')
@@ -132,4 +134,75 @@ def att_id(attractionId):
 	return stud_json
 
 
-app.run(host="0.0.0.0", port=3000)
+@app.route("/api/user", methods = ["GET", "POST", "PATCH", "DELETE"])
+def user():
+	if (request.method == "GET"):
+		if "id" in session:
+			mem_dict = {
+				"id": session["id"],
+				"name":  session["name"],
+				"email":  session["email"]
+			}
+			stud_json = json.dumps({"data": mem_dict}, indent=2, ensure_ascii=False)
+		else:
+			stud_json = json.dumps({"data": None}, indent=2, ensure_ascii=False)
+		return stud_json, 200
+
+
+	elif (request.method == "POST"):
+		data = request.get_json()
+		sname = data['name']
+		semail = data['email']
+		spassword = data['password']
+		cursor = mydb.cursor()
+		sql = "SELECT `email` FROM `user` WHERE `email` = %s ;"
+		check_user = (semail,)
+		cursor.execute(sql, check_user)
+		new_check = 0
+		for check in cursor:
+			new_check = check[0]
+		if (new_check == semail):
+			return jsonify({"error":True,"message":"此電子郵件已被註冊"}), 400
+		else:
+			sql = "INSERT INTO `user` (name, password, email) VALUES ( %s, %s, %s );"
+			member_data = (sname, spassword, semail)
+			cursor.execute(sql, member_data)
+			mydb.commit()
+			cursor.close()
+			return jsonify({"ok": True}), 200
+
+
+	elif (request.method == "PATCH"):
+		data = request.get_json()
+		uemail = data['email']
+		upassword = data['password']
+		cursor = mydb.cursor(buffered=True)
+		sql = "SELECT `id`, `name`, `email`, `password` FROM `user` WHERE `email` = %s AND `password` = %s ;"
+		check_data = (uemail, upassword)
+		cursor.execute(sql, check_data)
+		rid = 0
+		rname = 0
+		remail = 0
+		rpw = 0
+		for id, name, email, pw in cursor:
+			rid = id
+			rname = name
+			remail = email
+			rpw = pw
+
+		if (remail == uemail and rpw == upassword):
+			session["id"] = rid
+			session["name"] = rname
+			session["email"] = remail
+			return jsonify({"ok": True}), 200
+		else:
+			return jsonify({"error":True,"message":"此帳號未註冊"}), 400
+
+
+	elif (request.method == "DELETE"):
+		session.pop("id", None)
+		stud_json = json.dumps({"ok": True}, indent=2, ensure_ascii=False)
+		return stud_json, 200
+
+
+app.run(port=3000)

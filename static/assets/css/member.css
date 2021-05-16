@@ -1,0 +1,69 @@
+.mem_bg_model{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    position: absolute;
+    top: 0;
+    z-index: 1000;
+    display: none;
+}
+.mem_box{
+    color: white;
+    border-radius: 5px 5px 0 0;
+    height: 10px;
+    background: linear-gradient(270deg, #337788 0%, #66AABB 100%);
+}
+.mem_table{
+    width: 340px;
+    height: min-content;
+    margin: 90px auto;
+    background-color: white;
+    border-radius: 5px;
+    color: #666666;
+    position: relative;
+}
+.mem_text{
+    text-align: center;
+}
+.mem_login{
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 24px;
+    margin: 15px 0 10px 0;
+}
+.mem_close{
+    position: absolute;
+    right: 17px;
+    top: 27px;
+    z-index: 1000;
+    cursor: pointer;
+}
+.mem_input{
+    margin-bottom: 2%;
+    height: 47px;
+    width: 305px;
+    border-radius: 5px;
+    border: 1px solid #CCCCCC;
+    line-height: 25px;
+    font-size: 16px;
+    margin: 5px 0;
+    padding: 0 0 0 5px;
+}
+
+.mem_btn{
+    width: 310px;
+    height: 47px;
+    background-color: #448899;
+    border: none;
+    border-radius: 4px;
+    margin: 5px;
+    font-size: 19px;
+    color: white;
+    line-height: 16px;
+    cursor: pointer;
+}
+.mem_sign{
+    font-weight: normal;
+    margin: 5px 0 15px 0;
+    display: inline-flex;
+}
