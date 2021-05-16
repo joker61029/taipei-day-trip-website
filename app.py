@@ -11,7 +11,7 @@ app.config["TEMPLATES_AUTO_RELOAD"]=True
 mydb = mysql.connector.connect(
     host = "localhost",
     user = "root",
-    password = "joker610",
+    password = "GhbI!Abg1329",
     database = "website"
 )
 
@@ -205,4 +205,4 @@ def user():
 		return stud_json, 200
 
 
-app.run(port=3000)
+app.run(host="0.0.0.0",port=3000)
