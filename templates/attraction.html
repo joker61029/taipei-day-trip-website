@@ -5,24 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>Taipe Trip 台北一日遊</title>
     <link rel="stylesheet" href="/static/assets/css/attraction.css">
+    <link rel="stylesheet" href="/static/assets/css/member.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript" src="{{url_for('static',filename='/assets/js/attraction.js')}}"></script>
-
+    <script type="text/javascript" src="{{url_for('static', filename='/assets/js/attraction.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='/assets/js/member.js')}}"></script>
 </head>
 <header>
-    <nav class="header">
-        <a href="/"><div class="header_name">台北一日遊</div></a>
-        <div class="ul">
-            <li style="display: inline; margin: 10px;">預定行程</li>
-            <li style="display: inline; margin: 10px;">登入/註冊</li>
-        </div>
-    </nav>
+    <script type="text/javascript" src="{{url_for('static', filename='/assets/js/header.js')}}"></script>
 </header>
-<body class="front">
+<body class="front" onload="attraction_onload();header_onload();">
     <div class="space"></div>
     <div class="attr_box">
         <div id="slides" class="slides">
-            <img class="left"  onclick="change(-1)" src="/static/assets/image/btn_leftArrow.png">
+            <img class="left" onclick="change(-1)" src="/static/assets/image/btn_leftArrow.png">
             <img class="right" onclick="change(1)" src="/static/assets/image/btn_rightArrow.png">
             <img class="img" id="slides_image">
         </div>
@@ -43,7 +38,6 @@
                         <label for="time-even" class="time_item">
                             <input class="time_input" id="time-even" type="radio" name="time" value="evening">
                             <div class="radio_radio"></div>下半天
-
                         </label>
                     </div>
                 </li>

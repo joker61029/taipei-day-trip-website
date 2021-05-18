@@ -108,6 +108,7 @@ li{
     width: 60px;
     background: #448899;
     border-radius: 0px 5px 5px 0px;
+    cursor: pointer;
 }
 .content{
     width: 66%;

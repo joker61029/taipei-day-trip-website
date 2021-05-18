@@ -1,4 +1,4 @@
-window.onload = function(){
+function index_onload(){
     let src="/api/attractions";
     fetch(src).then(function (response) {
         return response.json();

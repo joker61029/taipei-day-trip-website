@@ -1,4 +1,4 @@
-window.onload = function(){
+function attraction_onload(){
     let slides = document.getElementById("slides");
     var img_src = document.getElementById("slides_image");
     let name = document.getElementById("attr_name");
@@ -13,7 +13,6 @@ window.onload = function(){
         return response.json();
     }).then(function (result) {
         var attr_data = result["data"][0];
-        var attr_image = attr_data.images;
         name.textContent = attr_data.name;
         data.textContent = attr_data.category+" at "+ result["data"][0].mrt
         content.textContent = attr_data.description;

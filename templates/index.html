@@ -5,20 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>Taipe Trip 台北一日遊</title>
     <link rel="stylesheet" href="/static/assets/css/index.css">
+    <link rel="stylesheet" href="/static/assets/css/member.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="{{url_for('static',filename='/assets/js/index.js')}}"></script>
-
+    <script type="text/javascript" src="{{url_for('static', filename='/assets/js/member.js')}}"></script>
 </head>
 <header>
-    <nav class="header">
-        <a href="/"><div class="header_name">台北一日遊</div></a>
-        <div class="ul">
-            <li>預定行程</li>
-            <li>登入/註冊</li>
-        </div>
-    </nav>
+    <script type="text/javascript" src="{{url_for('static', filename='/assets/js/header.js')}}"></script>
 </header>
-<body class="front">
+<body class="front" onload="index_onload();header_onload();">
     <div class="title">
         <img class="welcome" src="/static/assets/image/welcome .png">
         <div class="slogan_box">

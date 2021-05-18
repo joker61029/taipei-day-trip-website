@@ -47,6 +47,7 @@ body{
     position: absolute;
     bottom: 46%;
     left: 10px;
+    cursor: pointer;
 }
 .right{
     opacity: 70%;
@@ -55,6 +56,7 @@ body{
     position: absolute;
     bottom: 46%;
     right: 10px;
+    cursor: pointer;
 }
 .ul{
     position: fixed;
@@ -86,6 +88,7 @@ body{
     cursor: pointer;
     margin-right: 18px;
     position: relative;
+    cursor: pointer;
 }
 .slide_radio{
     position: absolute;
@@ -177,6 +180,7 @@ li{
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 .data_box{
     text-align: left;
@@ -186,6 +190,7 @@ li{
     justify-content: center;
     line-height: 24px;
     font-weight: 400;
+    cursor: pointer;
 }
 .input_date{
     border: none;
@@ -263,7 +268,7 @@ li{
 }
 @media screen and (max-width: 570px){
     .img{max-width: 360px; min-width:360px; border-radius:5px;}
-    .attr_subtitle{max-width: 340px; min-width: 340px; margin-left: 0px;}
+    .attr_subtitle{max-width: 340px; min-width: 340px;}
     .booking_box{max-width: 340px;min-width:340px;}
     .header_name{margin: 10px 84% 10px 4%;}
     .ul{margin: 10px 20% 10px 40%;}
