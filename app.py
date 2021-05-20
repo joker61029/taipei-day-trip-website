@@ -1,3 +1,4 @@
+from random import seed
 from flask import *
 import mysql.connector, json
 from mysql.connector import errorcode
@@ -11,7 +12,7 @@ app.config["TEMPLATES_AUTO_RELOAD"]=True
 mydb = mysql.connector.connect(
     host = "localhost",
     user = "root",
-    password = "joker610",
+    password = "GhbI!Abg1329",
     database = "website"
 )
 
@@ -147,8 +148,6 @@ def user():
 		else:
 			stud_json = json.dumps({"data": None}, indent=2, ensure_ascii=False)
 		return stud_json, 200
-
-
 	elif (request.method == "POST"):
 		data = request.get_json()
 		sname = data['name']
@@ -170,8 +169,6 @@ def user():
 			mydb.commit()
 			cursor.close()
 			return jsonify({"ok": True}), 200
-
-
 	elif (request.method == "PATCH"):
 		data = request.get_json()
 		uemail = data['email']
@@ -197,12 +194,60 @@ def user():
 			return jsonify({"ok": True}), 200
 		else:
 			return jsonify({"error":True,"message":"此帳號未註冊"}), 400
-
-
 	elif (request.method == "DELETE"):
 		session.pop("id", None)
 		stud_json = json.dumps({"ok": True}, indent=2, ensure_ascii=False)
 		return stud_json, 200
 
 
-app.run(port=3000)
+@app.route("/api/booking", methods = ["GET", "POST", "DELETE"])
+def api_booking():
+	if(request.method == "GET"):
+		if "id" in session:
+			if "attractionId" in session:
+				attraction_dict = {
+					"id": session["attractionId"],
+					"name": session["attr_name"],
+					"address": session["attr_address"],
+					"image" : session["attr_img"]
+				}
+				
+				mydict = {"attraction": attraction_dict, "date": session["date"], "time": session["time"],"price": session["price"]}
+				
+				stud_json = json.dumps({"data": mydict}, indent=2, ensure_ascii=False)
+				return stud_json, 200
+			else:
+				return jsonify({"data": None}), 200
+		else:
+			return jsonify({"error": True, "message":"未登入系統，拒絕存取"}), 403
+
+	elif(request.method == "POST"):
+		if "id" in session:
+			data = request.get_json()
+			session["attractionId"] = data["id"]
+			session["attr_name"] = data["attr_name"]
+			session["attr_address"] = data["address"]
+			session["attr_img"] = data["img"]
+			session["date"] = data["date"]
+			session["time"] = data["time"]
+			session["price"] = data["money"]
+			return jsonify({"ok": True}), 200
+		elif "id" not in session:
+			return jsonify({"error": True, "message":"未登入系統，拒絕存取"}), 403
+		else:
+			return jsonify({"error": True, "message":"檔案建立失敗"}), 400
+
+	elif(request.method == "DELETE"):
+		if "id" in session:
+			session.pop("attractionId", None)
+			session.pop("attr_name", None)
+			session.pop("attr_address", None)
+			session.pop("attr_img", None)
+			session.pop("date", None)
+			session.pop("time", None)
+			session.pop("price", None)
+			return jsonify({"ok":True}), 200
+		else:
+			return jsonify({"error": True, "message":"未登入系統，拒絕存取"}), 403
+
+app.run(host="0.0.0.0", port=3000)
