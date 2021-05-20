@@ -199,8 +199,6 @@ def user():
 		stud_json = json.dumps({"ok": True}, indent=2, ensure_ascii=False)
 		return stud_json, 200
 
-
-<<<<<<< HEAD
 @app.route("/api/booking", methods = ["GET", "POST", "DELETE"])
 def api_booking():
 	if(request.method == "GET"):
