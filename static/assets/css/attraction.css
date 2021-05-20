@@ -188,9 +188,8 @@ li{
     width: 61%;
     margin: 46px 58% 15px 19%;
     justify-content: center;
-    line-height: 24px;
+    line-height: 28px;
     font-weight: 400;
-    cursor: pointer;
 }
 .input_date{
     border: none;
@@ -235,7 +234,7 @@ li{
 }
 .new_area{
     text-align: left;
-    color: #E8E8E8;
+    border-top: 1px solid #E8E8E8;
     width: 61%;
     margin: 46px 58% 30px 19%;
     justify-content: center;
@@ -249,6 +248,7 @@ li{
     line-height: 13px;
     justify-content: center;
     bottom: 0;
+    color: #ffffff;
 }
 
 @media screen and (max-width: 1090px){

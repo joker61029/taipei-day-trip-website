@@ -1,3 +1,7 @@
+var url = location.pathname;
+url = url.split('/')[2];
+var attr_data = ""
+
 function attraction_onload(){
     let slides = document.getElementById("slides");
     var img_src = document.getElementById("slides_image");
@@ -6,13 +10,11 @@ function attraction_onload(){
     let content = document.getElementById("attr_content");
     let address = document.getElementById("attr_address");
     let traffic = document.getElementById("attr_transport");     
-    let url = location.pathname;
-    url = url.split('/')[2];
     var src="/api/attraction/"+url;
     fetch(src).then(function (response) {
         return response.json();
     }).then(function (result) {
-        var attr_data = result["data"][0];
+        attr_data = result["data"][0];
         name.textContent = attr_data.name;
         data.textContent = attr_data.category+" at "+ result["data"][0].mrt
         content.textContent = attr_data.description;
@@ -38,6 +40,9 @@ function attraction_onload(){
             label.appendChild(input);
             label.appendChild(div);
         }
+        let [today] = new Date().toISOString().split("T");
+        let now_date = document.getElementById("date"); 
+        now_date.setAttribute("min", today); 
     })
     let time_morn = document.getElementById('time-morn');
     let time_even = document.getElementById('time-even');
@@ -52,38 +57,77 @@ function attraction_onload(){
 
 var now_id = 0
 function im(id){
-    let url = location.pathname;
-    url = url.split('/')[2];
-    let src="/api/attraction/"+url;
     let img_src = document.getElementById("slides_image");
-    fetch(src).then(function (response) {
-        return response.json();
-    }).then(function (result) {
-        now_id = id;
-        img_src.setAttribute("src", result["data"][0].images[now_id]);
-    })
+    now_id = id;
+    img_src.setAttribute("src", attr_data.images[now_id]);
 }
 
 function change(count){
-    let url = location.pathname;
-    url = url.split('/')[2];
-    let src="/api/attraction/"+url;
     let img_src = document.getElementById("slides_image");
+    if (now_id+count+1 > attr_data.images.length){
+        now_id = 0;
+    }
+    else if (now_id+count+1 <= 0 ){
+        now_id = attr_data.images.length - 1;
+    }
+    else{
+        now_id += count;
+    }
+    im(now_id);
+    img_src.setAttribute("src", attr_data.images[now_id]);
+    find_input = document.getElementById("input_"+now_id);
+    find_input.click();
+}
+
+function booking_submit(){
+    let login = document.getElementById("header_login");
+    let date = document.getElementById("date").value;
+    let check_date = document.getElementById("check_date");
+    let src="/api/user";
     fetch(src).then(function (response) {
         return response.json();
     }).then(function (result) {
-        if (now_id+count+1 > result["data"][0].images.length){
-            now_id = 0;
-        }
-        else if (now_id+count+1 <= 0 ){
-            now_id = result["data"][0].images.length - 1;
+        if(result["data"] != null){
+            if(date != ""){
+                check_date.style.display="none";
+                book_request();
+            }
+            else{
+                check_date.style.display="flex";
+            }
         }
         else{
-            now_id += count;
+            login.click();            
         }
-        im(now_id);
-        img_src.setAttribute("src", result["data"][0].images[now_id]);
-        find_input = document.getElementById("input_"+now_id);
-        find_input.click();
+    })
+}
+
+
+function book_request(){
+    let name = document.getElementById("attr_name").textContent;
+    let date = document.getElementById("date").value;
+    let money = document.getElementById("money").textContent;
+    let address = document.getElementById("attr_address").textContent;
+    if(money == "新台幣2000元"){time = "afternoon"; money = 2000;}
+    else{time = "evening"; money = 2500;}
+    let toSend = {
+        id : url,
+        attr_name : name,
+        address : address,
+        img : attr_data.images[0],
+        date : date,
+        time : time,
+        money : money
+    }
+    fetch("/api/booking", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json;"
+        },
+        body: JSON.stringify(toSend)
+    }).then(function (response){
+        if(response.status == 200){
+            window.location.replace("/booking");
+        }
     })
 }
