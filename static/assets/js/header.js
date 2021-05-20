@@ -1,3 +1,4 @@
+var user_login = null
 function header_onload(){
     var req = new XMLHttpRequest();
     req.open("GET", "/api/user");
@@ -8,13 +9,14 @@ function header_onload(){
         fetch(src).then(function (response) {
             return response.json();
         }).then(function (result) {
-            if(result["data"] != null){
+            user_login = result["data"];
+            if(user_login != null){
                 login.style.display="none";
                 logout.style.display="inline";
             }
             else{
                 login.style.display="inline";
-                logout.style.display="none";            
+                logout.style.display="none";              
             }
         })
     };
@@ -26,6 +28,7 @@ function sign_up(){
     let sign_name = document.getElementById("sign_name").value;
     let sign_email = document.getElementById("sign_email").value;
     let sign_password = document.getElementById("sign_password").value;
+    var success = document.getElementById("sign_up_success");
     if(sign_name != "" && sign_email != "" && sign_password !=""){
         let toSend = {
             name : sign_name,
@@ -39,7 +42,6 @@ function sign_up(){
             },
             body: JSON.stringify(toSend)
         }).then(function (response) {
-            let success = document.getElementById("sign_up_success");
             if(response.status === 200){
                 success.textContent = "註冊成功，請重新登入";
                 setTimeout("location.reload()",2000)
@@ -49,10 +51,14 @@ function sign_up(){
             }
         })
     }
+    else{
+        success.textContent = "請填寫完整註冊資料";
+    }
 }
 function login(){
     let login_email = document.getElementById("user_email").value;
     let login_password = document.getElementById("user_password").value;
+    var success = document.getElementById("login_success");
     if(login_email != "" && login_password != ""){
         let toSend = {
             email : login_email,
@@ -65,7 +71,6 @@ function login(){
             },
             body: JSON.stringify(toSend)
         }).then(function (response) {
-            let success = document.getElementById("login_success");
             console.log(response.status);
             if(response.status === 200){
                 success.textContent = "登入成功，網頁將自動跳轉";
@@ -76,7 +81,9 @@ function login(){
             }
         })
     }
-    
+    else{
+        success.textContent = "請填寫完整登入資料";
+    }
 }
 
 function logout(){
@@ -86,13 +93,22 @@ function logout(){
     req.send();
     window.location.reload();
 }
+function go_booking(){
+    let login = document.getElementById("header_login");
+    if(user_login != null){
+        window.open("/booking");
+    }
+    else{
+        login.onclick();
+    }
+}
 
 
 
 header = '<nav class="header">\
 <a href="/"><div class="header_name">台北一日遊</div></a>\
 <div class="ul">\
-    <li id="" onclick="" style="display: inline; margin: 10px; cursor: pointer;">預定行程</li>\
+    <li onclick="go_booking()" style="display: inline; margin: 10px; cursor: pointer;">預定行程</li>\
     <li id="header_login" onclick="member()" style="display: inline; margin: 10px; cursor: pointer;">登入/註冊</li>\
     <li id="header_logout" onclick="logout()" style="display: none; margin: 10px; cursor: pointer;">登出系統</li>\
 </div>\
