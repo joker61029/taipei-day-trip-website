@@ -200,6 +200,7 @@ def user():
 		return stud_json, 200
 
 
+<<<<<<< HEAD
 @app.route("/api/booking", methods = ["GET", "POST", "DELETE"])
 def api_booking():
 	if(request.method == "GET"):
@@ -251,3 +252,6 @@ def api_booking():
 			return jsonify({"error": True, "message":"未登入系統，拒絕存取"}), 403
 
 app.run(host="0.0.0.0", port=3000)
+=======
+app.run(host="0.0.0.0",port=3000)
+>>>>>>> 3967441df3236ee4198103999e88407213680a74
