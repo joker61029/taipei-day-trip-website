@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
@@ -7,8 +8,9 @@
     <link rel="stylesheet" href="/static/assets/css/attraction.css">
     <link rel="stylesheet" href="/static/assets/css/member.css">
     <link rel="stylesheet" href="/static/assets/css/booking.css">
+    <link rel="stylesheet" href="/static/assets/css/TP.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript" src="{{url_for('static', filename='/assets/js/booking.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='/assets/js/booking.js')}}"></script>    
 </head>
 <header>
     <script type="text/javascript" src="{{url_for('static', filename='/assets/js/header.js')}}"></script>
@@ -30,29 +32,45 @@
                 </div>
             </div>
         </div>
-        <hr class="new_area">
         <div class="check_data_box">
-            <liv style="font-size: 19px; font-weight: 700;">您的聯絡資訊</liv>
-            <liv>聯絡姓名：<input class="check_input" type="text" autocomplete="off" placeholder="輸入姓名" required></liv>
-            <liv>連絡信箱：<input class="check_input" type="email" autocomplete="off" placeholder="輸入電子郵件" required></liv>
-            <liv>手機號碼：<input class="check_input" type="text" autocomplete="off" placeholder="輸入手機號碼" maxlength="10" oninput="value=value.replace(/[^\d]/g,'')" required></liv>
-            <liv style="font-weight: 700;">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</liv>
-        </div>
-        <hr class="new_area">    
-        <div class="check_data_box">
-            <liv style="font-size: 19px; font-weight: 700;">信用卡付款資訊</liv>
-            <liv>卡片號碼：<input class="check_input" type="password" autocomplete="off" maxlength="16" placeholder="**** **** **** ****" oninput="value=value.replace(/[^\d]/g,'')" required></liv>
-            <liv>過期時間：<input class="check_input" type="text" placeholder="MM / YY"></liv>
-            <liv>驗證密碼：<input class="check_input" type="text" autocomplete="off" maxlength="3" placeholder="CVV" oninput="value=value.replace(/[^\d]/g,'')" required></liv>
-        </div>
-        <hr class="new_area">
-        <div class="total">
-            <lii style="margin: 43px 0 25px 0;">總價：<liii id="total_price"></liii></lii>
-            <lii><button type="button" class="total_btn" style="margin-bottom: 62px; height: 36px; width: 173px;">確認訂購並付款</button></lii>
+            <hr class="book_new_area">
+            <form>
+                <liv style="font-size: 19px; font-weight: 700;">您的聯絡資訊</liv>
+                <liv>聯絡姓名：<input id="contact_name" class="check_input" type="text" autocomplete="off" placeholder="輸入姓名" required></liv>
+                <liv>連絡信箱：<input id="contact_email" class="check_input" type="email" autocomplete="off" placeholder="輸入電子郵件" required></liv>
+                <liv>手機號碼：<input id="contact_phone" class="check_input" type="text" autocomplete="off" placeholder="輸入手機號碼" maxlength="10" oninput="value=value.replace(/[^\d]/g,'')" required></liv>
+                <hr class="book_new_area">
+                <liv style="font-size: 19px; font-weight: 700;">信用卡付款資訊</liv>    
+                <div class="form-group card-number-group">
+                    <liv for="card-number" ><span id="cardtype"></span>
+                        卡片號碼：
+                        <div class="check_input card-number" id="card-number"></div></liv>
+                </div>
+                <div class="form-group expiration-date-group">
+                    <liv for="expiration-date">
+                        過期時間：
+                        <div class="check_input expiration-date" id="tappay-expiration-date"></div></liv>                    
+                </div>
+                <div class="form-group cvc-group">
+                    <liv for="cvc" class="control-label">
+                        驗證密碼：
+                        <div class="check_input cvc" id="card-cvc"></div></liv>
+                </div>
+                
+                <hr class="book_new_area">
+                <div class="total">
+                    <lii style="margin: 43px 0 25px 0;">總價：<liii id="total_price"></liii></lii>
+                    <lii><button type="submit" class="total_btn" style="margin-bottom: 62px; height: 36px; width: 173px;">確認訂購並付款</button></lii>
+                </div> 
+            </form>         
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://js.tappaysdk.com/tpdirect/v5.7.0"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='/assets/js/tpdirect.js')}}"></script>
     <div id="no_booking" class="no_booking">目前沒有任何待預訂的行程</div>
     <footer class="footer">COPYRIGHT © 2021 台北一日遊</footer>
 </body>
+
 
 </html>

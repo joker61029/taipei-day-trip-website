@@ -3,6 +3,9 @@ from flask import *
 import mysql.connector, json
 from mysql.connector import errorcode
 from collections import defaultdict
+import time
+import requests
+
 
 app=Flask(__name__)
 app.secret_key = "(@*&#(283&$(*#"
@@ -22,6 +25,18 @@ class create_dict(dict):
     def add(self, key, value): 
         self[key] = value
 
+def delete_attraction():
+    session.pop("attractionId", None)
+    session.pop("attr_name", None)
+    session.pop("attr_address", None)
+    session.pop("attr_img", None)
+    session.pop("date", None)
+    session.pop("time", None)
+    session.pop("price", None)
+
+
+
+
 # Pages
 @app.route("/")
 def index():
@@ -35,6 +50,9 @@ def booking():
 @app.route("/thankyou")
 def thankyou():
 	return render_template("thankyou.html")
+@app.route("/TP")
+def TP():
+	return render_template("tpE.html")
 
 
 #API_ATTRACTION
@@ -199,8 +217,6 @@ def user():
 		stud_json = json.dumps({"ok": True}, indent=2, ensure_ascii=False)
 		return stud_json, 200
 
-
-<<<<<<< HEAD
 @app.route("/api/booking", methods = ["GET", "POST", "DELETE"])
 def api_booking():
 	if(request.method == "GET"):
@@ -240,18 +256,112 @@ def api_booking():
 
 	elif(request.method == "DELETE"):
 		if "id" in session:
-			session.pop("attractionId", None)
-			session.pop("attr_name", None)
-			session.pop("attr_address", None)
-			session.pop("attr_img", None)
-			session.pop("date", None)
-			session.pop("time", None)
-			session.pop("price", None)
+			delete_attraction()
 			return jsonify({"ok":True}), 200
 		else:
 			return jsonify({"error": True, "message":"未登入系統，拒絕存取"}), 403
 
+
+@app.route("/api/orders", methods = ["POST"])
+def order_post():
+	if "id" in session:
+		data = request.get_json()
+		order_no = str(time.strftime('%Y%m%d%H%M%S', time.localtime(time.time()))) + str(time.time()).replace('.', '')[-4:]
+		price = data["order"]["price"]
+		attr_id = data["order"]["trip"]["attraction"]["id"]
+		attr_name = data["order"]["trip"]["attraction"]["name"]
+		attr_address = data["order"]["trip"]["attraction"]["address"]
+		attr_image = data["order"]["trip"]["attraction"]["image"]
+		go_date = data["order"]["trip"]["date"]
+		go_time = data["order"]["trip"]["time"]
+		contact_name = data["order"]["contact"]["name"]
+		contact_email = data["order"]["contact"]["email"]
+		contact_phone = data["order"]["contact"]["phone"]
+		url = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
+		toTP = {
+			"prime": data["prime"],
+			"partner_key": "partner_UItgwYC63v9xTTVwrzM6JchQHVfDunOKv0JfNhjvCAHwlP7ftRpfVBd0",
+			"merchant_id": "joker35_CTBC",
+			"details":"TapPay Test",
+			"amount": price,
+			"cardholder": {
+				"phone_number": contact_phone,
+				"name": contact_name,
+				"email": contact_email,
+			},
+			"remember": True
+		}
+		head = {
+			"content-type" : "application/json;",
+			"x-api-key" : "partner_UItgwYC63v9xTTVwrzM6JchQHVfDunOKv0JfNhjvCAHwlP7ftRpfVBd0"
+			}
+		send_TP = json.dumps(toTP, indent=2)
+		Tprequest = requests.post(url, headers = head, data = send_TP)
+		status = json.loads(Tprequest.text)["status"]
+
+		if(status == 0): 
+			status_message = "付款成功"
+			delete_attraction()
+		else: 
+			status_message = "付款失敗"
+
+
+		cursor = mydb.cursor(buffered=True)
+		sql = """INSERT INTO `booking` (number, price, attr_id, attr_name, attr_address, attr_image, date, time, contact_name, contact_email, contact_phone, status)
+				 VALUES ( %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s );"""
+		booking_data = (order_no, price, attr_id, attr_name, attr_address, attr_image, go_date, go_time, contact_name, contact_email, contact_phone, status)
+		cursor.execute(sql, booking_data)
+		mydb.commit()   
+		cursor.close()
+		
+		return jsonify({"data": {"number":order_no, "payment":{"status":status, "message":status_message}}}), 200
+	elif "id" not in session:
+		return jsonify({"error": True, "message":"未登入系統，拒絕存取"}), 403
+	else:
+		return jsonify({"error": True, "message":"訂單建立錯誤"}), 400
+
+
+@app.route("/api/order/<orderNumber>", methods = ["GET"])
+def order_get(orderNumber):
+	if "id" in session:
+		cursor = mydb.cursor(buffered=True)
+		sql = "SELECT * FROM `booking` WHERE `number` = %s;"
+		check = (orderNumber,)
+		cursor.execute(sql, check)
+		data = cursor.fetchall()
+		if (data != []):
+			for row in data:
+				order = {
+					"data":{
+						"number" : row[1],
+						"price" : row[2],
+						"trip" : {
+							"attraction" : {
+								"id" : row[3],
+								"name" : row[4],
+								"address" : row[5],
+								"image" : row[6]
+							},
+							"date" : row[7],
+							"time" : row[8]
+						},
+						"contact" : {
+							"name" : row[9],
+							"email" : row[10],
+							"phone" : row[11]
+						},
+						"status" : row[12]
+					}
+				}
+			stud_json = json.dumps(order, indent=2, ensure_ascii=False)
+			return stud_json, 200
+		else:
+			stud_json = json.dumps({"data":None}, indent=2, ensure_ascii=False)
+			return stud_json, 200
+	else:
+		return jsonify({"error": True, "message":"未登入系統，拒絕存取"}), 403
+
+
+
+
 app.run(host="0.0.0.0", port=3000)
-=======
-app.run(host="0.0.0.0",port=3000)
->>>>>>> 3967441df3236ee4198103999e88407213680a74
