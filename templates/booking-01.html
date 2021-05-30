@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Taipe Trip 台北一日遊</title>
+    <link rel="stylesheet" href="/static/assets/css/attraction.css">
+    <link rel="stylesheet" href="/static/assets/css/member.css">
+    <link rel="stylesheet" href="/static/assets/css/booking.css">
+    <link rel="stylesheet" href="/static/assets/css/TP.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="{{url_for('static', filename='/assets/js/booking.js')}}"></script>
+    <script src="https://js.tappaysdk.com/tpdirect/v5.7.0"></script>
+    <script>
+        TPDirect.setupSDK(20436, 'app_WCn21YF66ckSDyTGES99QWRpbT7GjtpMlzOL6BWINvjwkyqgazfgTGz9Ha1c', 'sandbox')
+    </script>
+    <script type="text/javascript" src="{{url_for('static', filename='/assets/js/tpdirect.js')}}"></script>
+</head>
+<header>
+    <script type="text/javascript" src="{{url_for('static', filename='/assets/js/header.js')}}"></script>
+</header>
+<body class="front" onload="header_onload();booking_onload();">
+    <div style="height: 54px;"></div>
+    <div id="book_welcome" class="user_check"></div>
+    <div id="yes_booking">
+        <div class="checking">
+            <div id="slides" class="slides" style="top: -7px;"><img id="book_attr_img" class="check_img"></div>
+            <div class="check_subtitle">
+                <img class="book_delete_img" src="/static/assets/image/icon_delete.png" onclick="delete_booking();">
+                <div id="book_attr_name" style="margin: 0 0 15px 20px;color: #448899;"></div>
+                <div class="checking_box">
+                    <liv>日期：<livv id="book_attr_date"></livv></liv>
+                    <liv>時間：<livv id="book_attr_time"></livv></liv>
+                    <liv>費用：<livv id="book_attr_price"></livv></liv>
+                    <liv>地點：<livv id="book_attr_address"></livv></liv>
+                </div>
+            </div>
+        </div>
+        <hr class="new_area">
+        <div class="check_data_box">
+            <liv style="font-size: 19px; font-weight: 700;">您的聯絡資訊</liv>
+            <liv>聯絡姓名：<input class="check_input" type="text" autocomplete="off" placeholder="輸入姓名" required></liv>
+            <liv>連絡信箱：<input class="check_input" type="email" autocomplete="off" placeholder="輸入電子郵件" required></liv>
+            <liv>手機號碼：<input class="check_input" type="text" autocomplete="off" placeholder="輸入手機號碼" maxlength="10" oninput="value=value.replace(/[^\d]/g,'')" required></liv>
+            <liv style="font-weight: 700;">請保持手機暢通，準時到達，導覽人員將用手機與您聯繫，務必留下正確的聯絡方式。</liv>
+        </div>
+        <hr class="new_area">    
+        <div class="check_data_box">
+            <liv style="font-size: 19px; font-weight: 700;">信用卡付款資訊</liv>
+            <div class="tpfield" id="card-number"></div>
+            <div class="tpfield" id="card-expiration-date"></div>
+            <div class="tpfield" id="card-ccv"></div>
+                        
+            <liv>卡片號碼：<input class="check_input" type="password" autocomplete="off" maxlength="16" placeholder="**** **** **** ****" oninput="value=value.replace(/[^\d]/g,'')" required></liv>
+            <liv>過期時間：<input class="check_input" type="text" placeholder="MM / YY"></liv>
+            <liv>驗證密碼：<input class="check_input" type="text" autocomplete="off" maxlength="3" placeholder="CVV" oninput="value=value.replace(/[^\d]/g,'')" required></liv>
+        </div>
+        <hr class="new_area">
+        <div class="total">
+            <lii style="margin: 43px 0 25px 0;">總價：<liii id="total_price"></liii></lii>
+            <lii><button type="button" class="total_btn" style="margin-bottom: 62px; height: 36px; width: 173px;">確認訂購並付款</button></lii>
+        </div>
+    </div>
+    <div id="no_booking" class="no_booking">目前沒有任何待預訂的行程</div>
+    <footer class="footer">COPYRIGHT © 2021 台北一日遊</footer>
+</body>
+
+</html>

@@ -6,7 +6,6 @@ function booking_onload(){
     fetch(src_user).then(function (response) {
         return response.json();
     }).then(function (result) {
-        console.log(result["data"]);
         if(result["data"] == null ){
             window.location.replace("/");
         }
