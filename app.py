@@ -26,13 +26,13 @@ class create_dict(dict):
         self[key] = value
 
 def delete_attraction():
-    session.pop("attractionId", None)
-    session.pop("attr_name", None)
-    session.pop("attr_address", None)
-    session.pop("attr_img", None)
-    session.pop("date", None)
-    session.pop("time", None)
-    session.pop("price", None)
+	session.pop("attractionId", None)
+	session.pop("attr_name", None)
+	session.pop("attr_address", None)
+	session.pop("attr_img", None)
+	session.pop("date", None)
+	session.pop("time", None)
+	session.pop("price", None)
 
 
 
@@ -216,6 +216,7 @@ def user():
 		session.pop("id", None)
 		stud_json = json.dumps({"ok": True}, indent=2, ensure_ascii=False)
 		return stud_json, 200
+
 
 @app.route("/api/booking", methods = ["GET", "POST", "DELETE"])
 def api_booking():
