@@ -3,20 +3,22 @@ from flask import *
 import mysql.connector, json
 from mysql.connector import errorcode
 from collections import defaultdict
+from dotenv import load_dotenv
+import os
 import time
 import requests
 
-
 app=Flask(__name__)
-app.secret_key = "(@*&#(283&$(*#"
+app.secret_key = os.getenv('app_secret')
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
 
+load_dotenv()
 mydb = mysql.connector.connect(
-    host = "localhost",
-    user = "root",
-    password = "GhbI!Abg1329",
-    database = "website"
+    host = os.getenv('DB_HOST'),
+    user = os.getenv('DB_user'),
+    password = os.getenv('DB_PASSWORD'),
+    database = os.getenv('DB_DATABASE')
 )
 
 class create_dict(dict): 
@@ -110,6 +112,8 @@ def api_attractions():
 			delete = mydict[j]["images"]
 			del(delete[0])
 			delete.pop()
+	
+	cursor.close()
 
 	list = []
 	if(mydict == list):
@@ -129,6 +133,7 @@ def att_id(attractionId):
 	check = (attractionId,)
 	cursor.execute(sql, check)
 	data = cursor.fetchall()
+	cursor.close()
 	mydict = []
 	for row in data:
 		mydict.append(
@@ -179,6 +184,7 @@ def user():
 		for check in cursor:
 			new_check = check[0]
 		if (new_check == semail):
+			cursor.close()
 			return jsonify({"error":True,"message":"此電子郵件已被註冊"}), 400
 		else:
 			sql = "INSERT INTO `user` (name, password, email) VALUES ( %s, %s, %s );"
@@ -195,6 +201,7 @@ def user():
 		sql = "SELECT `id`, `name`, `email`, `password` FROM `user` WHERE `email` = %s AND `password` = %s ;"
 		check_data = (uemail, upassword)
 		cursor.execute(sql, check_data)
+		mydb.commit()
 		rid = 0
 		rname = 0
 		remail = 0
@@ -204,7 +211,7 @@ def user():
 			rname = name
 			remail = email
 			rpw = pw
-
+		cursor.close()
 		if (remail == uemail and rpw == upassword):
 			session["id"] = rid
 			session["name"] = rname
@@ -228,8 +235,7 @@ def api_booking():
 					"name": session["attr_name"],
 					"address": session["attr_address"],
 					"image" : session["attr_img"]
-				}
-				
+				}	
 				mydict = {"attraction": attraction_dict, "date": session["date"], "time": session["time"],"price": session["price"]}
 				
 				stud_json = json.dumps({"data": mydict}, indent=2, ensure_ascii=False)
@@ -281,8 +287,8 @@ def order_post():
 		url = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
 		toTP = {
 			"prime": data["prime"],
-			"partner_key": "partner_UItgwYC63v9xTTVwrzM6JchQHVfDunOKv0JfNhjvCAHwlP7ftRpfVBd0",
-			"merchant_id": "joker35_CTBC",
+			"partner_key": os.getenv("partner_key"),
+			"merchant_id": os.getenv("merchant_id"),
 			"details":"TapPay Test",
 			"amount": price,
 			"cardholder": {
@@ -294,7 +300,7 @@ def order_post():
 		}
 		head = {
 			"content-type" : "application/json;",
-			"x-api-key" : "partner_UItgwYC63v9xTTVwrzM6JchQHVfDunOKv0JfNhjvCAHwlP7ftRpfVBd0"
+			"x-api-key" : os.getenv("partner_key")
 			}
 		send_TP = json.dumps(toTP, indent=2)
 		Tprequest = requests.post(url, headers = head, data = send_TP)
@@ -330,6 +336,7 @@ def order_get(orderNumber):
 		check = (orderNumber,)
 		cursor.execute(sql, check)
 		data = cursor.fetchall()
+		cursor.close()
 		if (data != []):
 			for row in data:
 				order = {
@@ -361,8 +368,5 @@ def order_get(orderNumber):
 			return stud_json, 200
 	else:
 		return jsonify({"error": True, "message":"未登入系統，拒絕存取"}), 403
-
-
-
 
 app.run(host="0.0.0.0", port=3000)
