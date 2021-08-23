@@ -16,6 +16,7 @@
 ### 付款頁面：
 ![paying](https://github.com/joker61029/taipei-day-trip-website/blob/main/readme_image/paying01.jpg.jpg) 
 
+## 卡號測試模式為沙盒測試模式，並未真正傳送置資料庫
 ### 測試卡號：
 #### TapPay金流：https://docs.tappaysdk.com/tutorial/zh/reference.html#what-is-it209
 ##### 正確卡號可使用：4242 4242 4242 4242 到期年月：0123 CCV：123
