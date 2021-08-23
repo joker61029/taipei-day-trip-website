@@ -29,5 +29,5 @@
 #### 預約失敗畫面
 ![pay_error](https://github.com/joker61029/taipei-day-trip-website/blob/main/readme_image/pay_error.jpg)
 
-####登入顯示尚未有預定行程
+#### 登入顯示尚未有預定行程
 ![no_booking](https://github.com/joker61029/taipei-day-trip-website/blob/main/readme_image/no_booking.jpg)
