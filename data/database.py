@@ -80,7 +80,7 @@ while i < num:
     while j < len_images-1:
         j = j+1
         if(images[j].endswith(delete) == False):
-            images_list = images_list+(str(",http"+images[j]))
+            images_list = images_list+(str(",https"+images[j]))
     
     images_list = images_list+str(",")
     images_json = json.dumps(images_list)
