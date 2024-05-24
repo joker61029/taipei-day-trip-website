@@ -9,7 +9,7 @@ import time
 import requests
 
 app=Flask(__name__)
-app.secret_key = "(@*&#(283&$(*#"
+app.secret_key = "*******"
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
 
